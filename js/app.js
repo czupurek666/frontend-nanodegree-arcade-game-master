@@ -25,7 +25,7 @@ var Enemy = function(x,y,speed) {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-};
+}
 
 // Update the enemy's position
 // TODO: add other fruits
@@ -35,12 +35,12 @@ Enemy.prototype.update = function(dt, speed) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x= this.x +this.speed *dt;
-};
+}
 
 // TODO:Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+}
 
 /**
 * @description player class constructor
@@ -57,7 +57,9 @@ var Player = function () {
     this.y = 463;
     this.sprite = 'images/char-boy.png';
     this.speed= 0;
-}
+
+
+  }
 // TODO: player gets a prototype enemy to use the render function of enemy
 Player.prototype = Object.create(Enemy.prototype);
 Player.prototype.constructor = Player;
@@ -66,31 +68,28 @@ Player.prototype.constructor = Player;
 // player update() methode
 // TODO: sets a winning condition
 Player.prototype.update = function() {
-    if (player.y === -17){
+    if (this.y === -17){
       win = true;
     }
-};
+}
 
 //player handleInput() methode
 // TODO: moves the player after pressing the arrow keys
-Player.prototype.handleInput = function() {
-    window.onkeyup = function(e) {
-      var key = e.keyCode ? e.keyCode : e.which;
 
-      if (key == 37 && player.x > 2) {  // left
-        player.x = player.x -100;
-      }
-      else if (key == 38 && player.y  >0) { // up
-        player.y = player.y -80;
-      }
-      else if (key == 39 && player.x < 402) {  // right
-        player.x = player.x +100;
-      }
-      else if (key == 40 && player.y < 383) { // down
-        player.y = player.y +80
-      }
-    }
-}
+Player.prototype.handleInput = function (input){
+  if (input == 'left' && this.x > 2) {
+    this.x = this.x -100;
+  }
+  else if (input == 'up' && this.y  >0) {
+    this.y = this.y -80;
+  }
+  else if (input == 'right' && this.x < 402) {
+    this.x = this.x +100;
+  }
+  else if (input == 'down' && this.y < 383) {
+    this.y = this.y +80
+  }
+};
 
 // TODO: generates how high will run the enemy
 // from 3 possible highness: 63, 143, 223
@@ -106,8 +105,8 @@ function enemyY(){
 function checkCollisions(){
     allEnemies.forEach(function(enemy){
       if (player.y === enemy.y &&
-        player.x + 25 < enemy.x + 101 &&
-        player.x + 75 > enemy.x){
+        player.x  < enemy.x + 101 &&
+        player.x + 101 > enemy.x){
         colision = true;
       }
     });
